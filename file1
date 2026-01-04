@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Movie-Xplorer | Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -84,23 +84,78 @@
             font-weight: bold;
         }
 
-        /* ===== LOGIN ===== */
+        /* ===== LOGIN (IMPROVED) ===== */
         .login-page {
             position: fixed; inset: 0; background: linear-gradient(135deg,#141e30,#243b55);
             display: flex; align-items: center; justify-content: center; z-index: 5000;
         }
         .login-card {
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 20px; width: 340px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
+            padding: 36px; border-radius: 18px; width: 360px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.06);
+            transition: transform .25s ease, opacity .25s ease;
         }
-        .login-card input { 
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; 
-            border: none; background: rgba(255,255,255,0.9); box-sizing: border-box;
+        .login-card h2 { margin: 0 0 18px 0; color:var(--text); font-weight:700; }
+
+        /* Floating inputs */
+        .input-group { position: relative; margin: 14px 0; }
+        .input-group input {
+            width: 100%;
+            padding: 13px 14px 13px 44px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.95);
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #111;
+            outline: none;
         }
-        .login-card button { 
-            width: 100%; padding: 14px; border-radius: 8px; border: none; 
-            background: var(--accent); color: white; font-weight: bold; cursor: pointer; margin-top: 10px;
+        .input-group i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: rgba(0,0,0,0.45); }
+        .input-float-label {
+            position: absolute;
+            left: 44px; top: 50%;
+            transform: translateY(-50%);
+            transition: all .18s ease;
+            color: rgba(0,0,0,0.45);
+            pointer-events: none;
+            font-size: 14px;
+        }
+        .input-group input:focus + .input-float-label,
+        .input-group input:not(:placeholder-shown) + .input-float-label {
+            top: -8px;
+            left: 12px;
+            background: rgba(0,0,0,0.06);
+            padding: 0 6px;
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .error-text { display: none; font-size: 12px; color: #ff6b6b; text-align:left; margin-top:6px; margin-left:4px; }
+
+        .login-actions { margin-top: 10px; display:flex; gap:10px; flex-direction:column; }
+        .btn-primary {
+            width: 100%; padding: 12px 14px; border-radius: 10px; border: none; cursor: pointer;
+            font-weight: 700; background: var(--accent); color: white; opacity: 0.85;
+        }
+        .btn-primary.disabled { opacity: 0.5; pointer-events: none; }
+
+        .btn-ghost {
+            width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);
+            background: transparent; color: white; cursor: pointer; font-weight:600;
+        }
+
+        /* small spinner in button */
+        .btn-primary.loading::after {
+            content: "";
+            display: inline-block;
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-top-color: white;
+            animation: spin 0.9s linear infinite;
+            vertical-align: middle;
         }
 
         /* ===== HEADER ===== */
@@ -182,6 +237,69 @@
         .rec-item img { width: 100%; height: 160px; object-fit: cover; }
 
         footer { padding: 40px; text-align: center; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; opacity: 0.7; }
+
+        /* ===== MOVIE MODAL (Hotstar style) ===== */
+        .movie-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 15000;
+            align-items: center;
+            justify-content: center;
+        }
+        .movie-modal .backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+        }
+        .movie-modal .modal-card {
+            position: relative;
+            width: min(1100px, 95%);
+            height: min(620px, 85%);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.85));
+        }
+        .movie-modal .poster-half {
+            flex: 1.4;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 30px;
+            color: white;
+        }
+        .movie-modal .info-half {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--text);
+            background: linear-gradient(90deg, rgba(0,0,0,0.2), rgba(0,0,0,0.85));
+        }
+        .movie-modal .title { font-size: 2rem; font-weight: 800; }
+        .movie-modal .meta { color: #f1c40f; font-weight: bold; }
+        .movie-modal .overview { line-height: 1.4; opacity: 0.95; max-height: 220px; overflow: auto; padding-right: 8px; }
+        .movie-modal .close-btn {
+            position: absolute; top: 12px; right: 12px; z-index: 20;
+            background: rgba(0,0,0,0.6); border: none; color: white; padding: 10px 12px; border-radius: 8px; cursor: pointer;
+        }
+        .movie-modal .controls { display:flex; gap:12px; margin-top:10px; align-items:center; }
+        .movie-modal .play-btn {
+            background: var(--accent); border: none; color: white; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer;
+            display:flex; gap:10px; align-items:center;
+        }
+        .movie-modal .fav-btn {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer;
+        }
+        .movie-modal iframe { width:100%; height:100%; border: none; }
+        .trailer-container { position:absolute; inset:0; display:none; z-index:25; background: rgba(0,0,0,0.95); }
+        .trailer-inner { width: min(1000px, 95%); height: 60vh; margin: 4vh auto; border-radius:10px; overflow:hidden; background: black; }
     </style>
 </head>
 <body>
@@ -196,12 +314,29 @@
     <button onclick="hideError(); location.reload();">Retry</button>
 </div>
 
+<!-- IMPROVED LOGIN -->
 <div id="loginPage" class="login-page">
-    <div class="login-card">
-        <h2 style="color:white; margin-bottom:20px;">🎬 Movie-Xplorer</h2>
-        <input id="loginUser" placeholder="Username">
-        <input id="loginPass" type="password" placeholder="Password">
-        <button onclick="handleLogin()">Sign In</button>
+    <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+        <h2 id="loginTitle">🎬 Movie-Xplorer</h2>
+
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input id="loginUser" placeholder=" " type="text" oninput="validateLogin()" autocomplete="username" />
+            <span class="input-float-label">Username</span>
+            <div id="userErr" class="error-text">Username must be at least 3 characters</div>
+        </div>
+
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input id="loginPass" placeholder=" " type="password" oninput="validateLogin()" autocomplete="current-password" />
+            <span class="input-float-label">Password</span>
+            <div id="passErr" class="error-text">Password must be at least 6 characters</div>
+        </div>
+
+        <div class="login-actions">
+            <button id="loginBtn" class="btn-primary disabled" onclick="handleLogin()">Sign In</button>
+            <button class="btn-ghost" onclick="guestLogin()">Continue as Guest</button>
+        </div>
     </div>
 </div>
 
@@ -233,13 +368,50 @@
     </div>
 </div>
 
+<!-- MOVIE MODAL (Hotstar-like preview) -->
+<div id="movieModal" class="movie-modal" aria-hidden="true">
+    <div class="backdrop" onclick="closeMovie()"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="close-btn" onclick="closeMovie()"><i class="fas fa-times"></i></button>
+
+        <div id="modalPoster" class="poster-half">
+            <div style="z-index:5;">
+                <div id="modalTitle" class="title"></div>
+                <div id="modalMeta" class="meta"></div>
+                <div class="controls">
+                    <button id="modalPlayBtn" class="play-btn" onclick="playTrailer()"> <i class="fas fa-play"></i> Play Trailer</button>
+                    <button id="modalFavBtn" class="fav-btn" onclick="toggleModalFav()"> <i class="fas fa-heart"></i> Add to List</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-half">
+            <div id="modalTagline" style="opacity:0.8;"></div>
+            <div id="modalOverview" class="overview"></div>
+            <div style="margin-top:auto; display:flex; justify-content:space-between; color:rgba(255,255,255,0.6); font-size:13px;">
+                <div id="modalExtra"></div>
+                <div id="modalCredits"></div>
+            </div>
+        </div>
+
+        <!-- trailer overlay -->
+        <div id="trailerOverlay" class="trailer-container" onclick="closeTrailer(event)">
+            <!-- stopPropagation so clicks INSIDE the inner area don't bubble to overlay -->
+            <div class="trailer-inner" id="trailerInner" onclick="event.stopPropagation()">
+                <!-- YouTube player will be injected here -->
+                <div id="ytPlayerContainer" style="width:100%; height:100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
     <p>Logged in as <strong id="footName">Guest</strong></p>
     <p>© 2026 Movie-Xplorer Premium • Powered by TMDB</p>
 </footer>
 
 <script>
-/* --- CONFIGURATION --- */
+/* --- CONFIG --- */
 const API_KEY = "94c5595a7db3292dbc0890ef321ded5e";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
@@ -254,33 +426,72 @@ function toggleLoader(show) {
     document.getElementById("loader").style.display = show ? "block" : "none";
     document.getElementById("loaderOverlay").style.display = show ? "block" : "none";
 }
-
 function showError(msg = "Unable to load content. Please check your connection and try again.") {
     document.getElementById("errorText").innerText = msg;
     document.getElementById("errorMsg").style.display = "block";
     document.getElementById("loaderOverlay").style.display = "block";
 }
-
 function hideError() {
     document.getElementById("errorMsg").style.display = "none";
     document.getElementById("loaderOverlay").style.display = "none";
 }
-
 function toggleTheme() { document.body.classList.toggle("light-mode"); }
 
-/* --- AUTH --- */
+/* --- AUTH (IMPROVED) --- */
+
+// validation helper — enables/disables sign-in button and toggles inline errors
+function validateLogin() {
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value;
+    const btn = document.getElementById("loginBtn");
+    let ok = true;
+
+    if (u.length < 3) {
+        document.getElementById("userErr").style.display = "block";
+        ok = false;
+    } else {
+        document.getElementById("userErr").style.display = "none";
+    }
+    if (p.length < 6) {
+        document.getElementById("passErr").style.display = "block";
+        ok = false;
+    } else {
+        document.getElementById("passErr").style.display = "none";
+    }
+
+    btn.classList.toggle("disabled", !ok);
+    btn.classList.toggle("loading", false);
+}
+
+// handle login with loading state, stores username to localStorage and starts app
 function handleLogin() {
-    const u = document.getElementById("loginUser").value;
-    if(!u) return alert("Please enter a username");
-    localStorage.setItem("mf_curr_user", u);
-    startApp(u);
+    const btn = document.getElementById("loginBtn");
+    // disabled if invalid
+    if (btn.classList.contains("disabled")) return;
+
+    // show loading
+    btn.classList.add("loading");
+
+    // small artificial delay to show loading UX
+    setTimeout(() => {
+        const u = document.getElementById("loginUser").value.trim();
+        localStorage.setItem("mf_curr_user", u);
+        startApp(u);
+        // reset button state (if user logs out later and returns)
+        btn.classList.remove("loading");
+    }, 900);
+}
+
+// guest login
+function guestLogin() {
+    localStorage.setItem("mf_curr_user", "Guest");
+    startApp("Guest");
 }
 
 function handleLogout() { 
     localStorage.removeItem("mf_curr_user"); 
     location.reload(); 
 }
-
 function startApp(u) {
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("userTag").innerText = " | " + u;
@@ -288,12 +499,19 @@ function startApp(u) {
     loadHomeData();
 }
 
+/* initialize login state if already saved */
 window.onload = () => {
     const saved = localStorage.getItem("mf_curr_user");
-    if(saved) startApp(saved);
+    if (saved) {
+        // hide login and start
+        startApp(saved);
+    } else {
+        // ensure validation state is correct on fresh load
+        validateLogin();
+    }
 }
 
-/* --- NAVIGATION --- */
+/* --- NAV --- */
 function showPage(page) {
     document.getElementById("homeWrapper").style.display = page === 'home' ? 'block' : 'none';
     document.getElementById("favWrapper").style.display = page === 'fav' ? 'block' : 'none';
@@ -302,7 +520,7 @@ function showPage(page) {
     if(page === 'fav') loadFavorites();
 }
 
-/* --- SCROLL ARROWS --- */
+/* --- SCROLL --- */
 function scrollRow(id, direction) {
     const row = document.getElementById(id);
     const scrollAmount = 600;
@@ -312,7 +530,7 @@ function scrollRow(id, direction) {
     });
 }
 
-/* --- DATA FETCHING --- */
+/* --- DATA --- */
 async function loadHomeData() {
     toggleLoader(true);
     try {
@@ -330,7 +548,7 @@ async function loadHomeData() {
         updateHero();
         
         setInterval(() => { 
-            hIdx = (hIdx + 1) % 5; 
+            hIdx = (hIdx + 1) % Math.max(1, heroList.length); 
             updateHero(); 
         }, 8000);
 
@@ -355,9 +573,9 @@ function updateHero() {
     hero.innerHTML = `
         <div class="hero-content">
             <h1 style="font-size:3rem; margin:0;">${m.title}</h1>
-            <p style="font-size:1.1rem; opacity:0.9;">${m.overview.slice(0,160)}...</p>
-            <div style="font-weight:bold; color:#f1c40f; font-size:1.2rem;">★ ${m.vote_average} <span style="color:white; margin-left:10px; opacity:0.6;">| ${m.release_date.split('-')[0]}</span></div>
-        </div>`;
+            <p style="font-size:1.1rem; opacity:0.9;">${m.overview ? m.overview.slice(0,160) : ''}...</p>
+            <div style="font-weight:bold; color:#f1c40f; font-size:1.2rem;">★ ${m.vote_average} <span style="color:white; margin-left:10px; opacity:0.6;">| ${m.release_date ? m.release_date.split('-')[0] : ''}</span></div>
+        </div>`; 
 }
 
 function drawRow(title, list, id) {
@@ -369,7 +587,7 @@ function drawRow(title, list, id) {
             </button>
             <div class="row" id="row-${id}">
                 ${list.map(m => `
-                    <div class="row-card" onclick="addFav(${m.id}, '${m.title.replace(/'/g,"")}', '${m.poster_path}', ${m.vote_average}, '${m.release_date}')">
+                    <div class="row-card" onclick="openMovie(${m.id})">
                         <img src="${m.poster_path ? IMG + m.poster_path : 'https://via.placeholder.com/200x300?text=No+Image'}">
                     </div>`).join('')}
             </div>
@@ -402,18 +620,18 @@ async function search() {
         grid.style.display = "grid";
         
         if(!res.results.length) {
-            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;"><h2>No movies found for "${q}"</h2></div>`;
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;"><h2>No movies found for "${q}"</h2></div>`; 
         } else {
             grid.innerHTML = res.results.map(m => `
-                <div class="movie-card">
+                <div class="movie-card" onclick="openMovie(${m.id})">
                     <img src="${m.poster_path ? IMG + m.poster_path : 'https://via.placeholder.com/500x750?text=No+Image'}">
                     <div class="movie-meta">
                         <strong style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:140px;">${m.title}</strong>
-                        <i class="fas fa-heart" onclick="addFav(${m.id}, '${m.title.replace(/'/g,"")}', '${m.poster_path}', ${m.vote_average}, '${m.release_date}')" 
+                        <i class="fas fa-heart" onclick="event.stopPropagation(); addFav(${m.id}, '${m.title.replace(/'/g,"")}', '${m.poster_path}', ${m.vote_average}, '${m.release_date}')" 
                            style="cursor:pointer; color:${isFav(m.id)?'#e50914':'#444'}"></i>
                     </div>
                 </div>
-            `).join('');
+            `).join(''); 
         }
         toggleLoader(false);
     } catch(e) {
@@ -423,7 +641,7 @@ async function search() {
     }
 }
 
-/* --- FAVORITES LOGIC --- */
+/* --- FAVORITES --- */
 function isFav(id) { return favorites.some(f => f.id === id); }
 
 function addFav(id, title, path, vote, date) {
@@ -490,6 +708,267 @@ async function loadFavorites() {
         rec.innerHTML = '<p style="text-align:center; opacity:0.6;">Unable to load recommendations</p>';
     }
 }
+
+/* --- MOVIE MODAL & TRAILER (YouTube IFrame API) --- */
+let currentModalMovie = null;
+let currentTrailerKey = null;
+
+// YouTube API state
+let ytApiReady = false;
+let ytPlayer = null;
+let pendingPlayKey = null;
+let ytScriptLoaded = false;
+
+function loadYouTubeAPIIfNeeded() {
+    if(ytApiReady) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+        if(ytScriptLoaded) {
+            // already injected, wait for callback
+            const wait = setInterval(() => {
+                if(ytApiReady) { clearInterval(wait); resolve(); }
+            }, 100);
+            setTimeout(() => { if(!ytApiReady) reject(new Error("YT API load timeout")); }, 8000);
+            return;
+        }
+        ytScriptLoaded = true;
+        // insert script tag
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        tag.async = true;
+        tag.onload = () => {
+            // the API will call onYouTubeIframeAPIReady when ready
+        };
+        tag.onerror = (ev) => {
+            console.error("Failed to load YouTube API", ev);
+            reject(new Error("Failed to load YouTube API"));
+        };
+        document.head.appendChild(tag);
+
+        // wait for global readiness
+        const wait = setInterval(() => {
+            if(ytApiReady) { clearInterval(wait); resolve(); }
+        }, 100);
+        setTimeout(() => { if(!ytApiReady) reject(new Error("YT API load timeout")); }, 8000);
+    });
+}
+
+// This function is called by the YouTube IFrame API when it's ready
+function onYouTubeIframeAPIReady() {
+    ytApiReady = true;
+    // if there was a pending play request, handle it
+    if(pendingPlayKey) {
+        _createYTPlayerAndPlay(pendingPlayKey);
+        pendingPlayKey = null;
+    }
+}
+
+// helper to create/destroy player safely
+function _createYTPlayerAndPlay(key) {
+    try {
+        // cleanup existing
+        if(ytPlayer) {
+            try { ytPlayer.stopVideo(); } catch(e) {}
+            try { ytPlayer.destroy(); } catch(e) {}
+            ytPlayer = null;
+        }
+        // empty container then create
+        const container = document.getElementById('ytPlayerContainer');
+        container.innerHTML = '<div id="yt-player-anchor" style="width:100%; height:100%;"></div>';
+
+        // create player
+        ytPlayer = new YT.Player('yt-player-anchor', {
+            width: '100%',
+            height: '100%',
+            videoId: key,
+            playerVars: {
+                autoplay: 1,
+                mute: 1,         // muted autoplay to increase browser compatibility
+                rel: 0,
+                playsinline: 1,
+                modestbranding: 1,
+            },
+            events: {
+                onReady: (ev) => {
+                    try {
+                        ev.target.playVideo();
+                    } catch(err) {
+                        console.warn("YT player play error", err);
+                    }
+                },
+                onError: (ev) => {
+                    console.error("YT player error", ev);
+                    // fallback: open watch page
+                    window.open(`https://www.youtube.com/watch?v=${key}`, '_blank');
+                    closeTrailer();
+                }
+            }
+        });
+    } catch(err) {
+        console.error("_createYTPlayerAndPlay failed", err);
+        // fallback to opening the watch page
+        window.open(`https://www.youtube.com/watch?v=${key}`, '_blank');
+        closeTrailer();
+    }
+}
+
+async function openMovie(id) {
+    toggleLoader(true);
+    try {
+        const res = await fetch(`${BASE}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits`);
+        if(!res.ok) throw new Error("Failed to load movie details");
+        const data = await res.json();
+        currentModalMovie = data;
+
+        // set poster background (use backdrop if available)
+        const posterEl = document.getElementById("modalPoster");
+        const backdropPath = data.backdrop_path || data.poster_path;
+        posterEl.style.backgroundImage = backdropPath ? `linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${BIG_IMG}${backdropPath})` : '';
+
+        document.getElementById("modalTitle").innerText = data.title || data.name || 'Untitled';
+        document.getElementById("modalMeta").innerText = `★ ${data.vote_average || 'N/A'} | ${data.release_date ? data.release_date.split('-')[0] : ''}`;
+        document.getElementById("modalOverview").innerText = data.overview || 'No overview available.';
+        document.getElementById("modalTagline").innerText = data.tagline || '';
+        const runtime = data.runtime ? `${data.runtime} min` : '';
+        document.getElementById("modalExtra").innerText = `${runtime} • ${data.genres ? data.genres.map(g => g.name).join(', ') : ''}`;
+        // credits (top 3 cast)
+        const cast = (data.credits && data.credits.cast) ? data.credits.cast.slice(0,3).map(c => c.name).join(', ') : '';
+        document.getElementById("modalCredits").innerText = cast ? `Cast: ${cast}` : '';
+
+        // find trailer key (prefer official trailer)
+        currentTrailerKey = null;
+        if(data.videos && data.videos.results && data.videos.results.length) {
+            const trailer = data.videos.results.find(v => /trailer/i.test(v.type) && v.site === "YouTube")
+                         || data.videos.results.find(v => v.site === "YouTube");
+            if(trailer) currentTrailerKey = trailer.key;
+        }
+
+        document.getElementById("movieModal").style.display = "flex";
+        document.getElementById("movieModal").setAttribute("aria-hidden", "false");
+        updateModalFavBtn();
+        toggleLoader(false);
+    } catch(e) {
+        console.error(e);
+        toggleLoader(false);
+        showError("Failed to open movie preview. Try again later.");
+    }
+}
+
+function closeMovie() {
+    closeTrailer();
+    document.getElementById("movieModal").style.display = "none";
+    document.getElementById("movieModal").setAttribute("aria-hidden", "true");
+    currentModalMovie = null;
+    currentTrailerKey = null;
+}
+
+function updateModalFavBtn() {
+    const btn = document.getElementById("modalFavBtn");
+    if(!currentModalMovie) return;
+    const fav = isFav(currentModalMovie.id);
+    btn.innerHTML = fav ? '<i class="fas fa-check"></i> In List' : '<i class="fas fa-heart"></i> Add to List';
+    btn.style.background = fav ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.06)';
+}
+
+function toggleModalFav() {
+    if(!currentModalMovie) return;
+    const mv = currentModalMovie;
+    if(isFav(mv.id)) {
+        addFav(mv.id);
+    } else {
+        addFav(mv.id, mv.title || mv.name || '', mv.poster_path || '', mv.vote_average || 0, mv.release_date || '');
+    }
+    updateModalFavBtn();
+}
+
+// Play trailer using YouTube API for better autoplay reliability (muted)
+async function playTrailer() {
+    try {
+        if(!currentModalMovie) return;
+        if(!currentTrailerKey) {
+            // fallback: open youtube search
+            const q = encodeURIComponent((currentModalMovie.title || currentModalMovie.name || '') + ' trailer');
+            window.open(`https://www.youtube.com/results?search_query=${q}`, '_blank');
+            return;
+        }
+
+        // load API if needed
+        try {
+            await loadYouTubeAPIIfNeeded();
+        } catch(apiErr) {
+            console.warn("YT API load failed, fallback to watch page", apiErr);
+            window.open(`https://www.youtube.com/watch?v=${currentTrailerKey}`, '_blank');
+            return;
+        }
+
+        // if API is ready, create player and play
+        if(ytApiReady) {
+            _createYTPlayerAndPlay(currentTrailerKey);
+            document.getElementById("trailerOverlay").style.display = "block";
+        } else {
+            // API not yet ready but script is loading: set pending key
+            pendingPlayKey = currentTrailerKey;
+            document.getElementById("trailerOverlay").style.display = "block";
+        }
+    } catch(err) {
+        console.error("playTrailer error", err);
+        // fallback to watch page
+        window.open(`https://www.youtube.com/watch?v=${currentTrailerKey}`, '_blank');
+    }
+}
+
+// Close trailer overlay and cleanup YT player
+function closeTrailer(e) {
+    // if click event came from inside player area, ignore (we use stopPropagation on inner)
+    if(e && e.target && e.target.id && e.target.id !== 'trailerOverlay' && e.target.id !== 'ytPlayerContainer' && e.target.id !== 'yt-player-anchor') {
+        // clicking inside trailer inner won't close due to stopPropagation, but keep safe guard
+        return;
+    }
+
+    try {
+        const overlay = document.getElementById("trailerOverlay");
+        if(overlay) overlay.style.display = "none";
+
+        // destroy player if exists
+        if(ytPlayer) {
+            try { ytPlayer.stopVideo(); } catch(e) {}
+            try { ytPlayer.destroy(); } catch(e) {}
+            ytPlayer = null;
+        }
+
+        // clear containers
+        const container = document.getElementById("ytPlayerContainer");
+        if(container) container.innerHTML = '';
+
+        // clear pending
+        pendingPlayKey = null;
+    } catch(err) {
+        console.warn("closeTrailer cleanup error", err);
+    }
+}
+
+/* Bind YT API callback to window (the API expects this name) */
+window.onYouTubeIframeAPIReady = function() {
+    onYouTubeIframeAPIReady();
+};
+
+/* Pre-inject YT API script but don't wait — it will be used when user clicks Play.
+   This avoids a long delay after Play is clicked. */
+(function preinjectYT(){
+    if(window.YT && window.YT.Player) {
+        ytApiReady = true;
+        return;
+    }
+    if(document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) return;
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    tag.async = true;
+    tag.onload = () => { ytScriptLoaded = true; };
+    tag.onerror = () => { ytScriptLoaded = true; /* still mark loaded to avoid duplicate */ };
+    document.head.appendChild(tag);
+})();
+
+/* --- end modal/trailer logic --- */
+
 </script>
 
 </body>
