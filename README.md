@@ -27,6 +27,7 @@ A dynamic and interactive web application that allows users to search and explor
 - Movie API – Fetch real-time movie data
 
 - Firebase – Cloud storage for wishlist data
+
 🔥 How It Works
 
 - User searches for a movie.
