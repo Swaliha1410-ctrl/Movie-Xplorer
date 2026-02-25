@@ -18,7 +18,7 @@ A dynamic and interactive web application that allows users to search and explor
 
 🛠 Tech Stack
 
-HTML5 – Structure
+- HTML5 – Structure
 
 CSS3 – Styling & Responsiveness
 
