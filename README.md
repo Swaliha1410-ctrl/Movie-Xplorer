@@ -18,48 +18,48 @@ A dynamic and interactive web application that allows users to search and explor
 
 🛠 Tech Stack
 
--HTML5 – Structure
+- HTML5 – Structure
 
--CSS3 – Styling & Responsiveness
+- CSS3 – Styling & Responsiveness
 
--JavaScript (ES6) – Functionality & Logic
+- JavaScript (ES6) – Functionality & Logic
 
--Movie API – Fetch real-time movie data
+- Movie API – Fetch real-time movie data
 
--Firebase – Cloud storage for wishlist data
+- Firebase – Cloud storage for wishlist data
 🔥 How It Works
 
--User searches for a movie.
+- User searches for a movie.
 
--The application fetches data using a Movie API.
+- The application fetches data using a Movie API.
 
--Movie details, cast, and trailer are dynamically displayed.
+- Movie details, cast, and trailer are dynamically displayed.
 
--Users can add movies to their wishlist.
+- Users can add movies to their wishlist.
 
--Wishlist data is stored securely using Firebase.
+- Wishlist data is stored securely using Firebase.
 
 🧠 Learning Outcomes
 
--Working with REST APIs
+- Working with REST APIs
 
--Handling asynchronous JavaScript (Promises / Fetch API)
+- Handling asynchronous JavaScript (Promises / Fetch API)
 
--DOM manipulation & dynamic rendering
+- DOM manipulation & dynamic rendering
 
--Firebase integration
+- Firebase integration
 
-T-eam collaboration & version control
+- Team collaboration & version control
 
 📌 Future Improvements
 
--User authentication system
+- User authentication system
 
--Dark/Light mode toggle
+- Dark/Light mode toggle
 
--Advanced filtering (genre, rating, year)
+- Advanced filtering (genre, rating, year)
 
--Pagination for better performance
+- Pagination for better performance
 
 📬 Contact
 
